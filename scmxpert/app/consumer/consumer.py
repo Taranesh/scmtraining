@@ -1,9 +1,9 @@
-import socket   
-import os 
-import time    
-import pymongo   
-import json 
+"""The above code is importing the necessary libraries for the program to run.
+"""
+import os
+import json
 import sys
+import pymongo
 from kafka import KafkaConsumer
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,17 +13,18 @@ CLIENT = pymongo.MongoClient(os.getenv("mongodbUri"))
 DB = CLIENT['scmxpertlite']
 DATA_STREAM = DB["datastream"]
 
-topicName = os.getenv("topic_name")    
-print(topicName)
-bootstrap_servers= "localhost:9092"
+TOPIC_NAME = os.getenv("topic_name")
+print(TOPIC_NAME)
+bootstrap_servers = "localhost:9092"
 
 try:
-    consumer = KafkaConsumer(topicName,bootstrap_servers = bootstrap_servers,auto_offset_reset = 'latest')
-    for d in consumer:
+    CONSUMER = KafkaConsumer(TOPIC_NAME, bootstrap_servers=bootstrap_servers,\
+                              auto_offset_reset='latest')
+    for DATA in CONSUMER:
         try:
-            d = json.loads(d.value)
-            print(d)
-            mdata = DATA_STREAM.insert_one(d)
+            DATA = json.loads(DATA.value)
+            print(DATA)
+            mdata = DATA_STREAM.insert_one(DATA)
         except json.decoder.JSONDecodeError:
             continue
 except KeyboardInterrupt:

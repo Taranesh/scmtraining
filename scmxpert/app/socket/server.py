@@ -1,12 +1,12 @@
 import socket
 import json
 import time
-s = socket.socket()
+socket_connection = socket.socket()
 print("Socket Created")
-s.bind(('',12345))
-s.listen(3)
+socket_connection.bind(('',12345))
+socket_connection.listen(3)
 print("waiting for connections")
-c, addr = s.accept()
+client, addr = socket_connection.accept()
 
 data = {
     "Battery_Level":3.1,
@@ -22,8 +22,8 @@ while True:
         print("connected with", addr)
         userdata = (json.dumps(data)+"\n").encode('utf-8')
         print(userdata)
-        c.send(userdata)
+        client.send(userdata)
         time.sleep(1)
     except Exception as e:
         print(e)
-        c.close()
+        client.close()

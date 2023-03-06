@@ -1,8 +1,7 @@
-from ensurepip import bootstrap
+"""The above code is importing the necessary libraries for the program to run.
+"""
 import socket    
-import json 
 import os
-from pathlib import Path
 from dotenv import load_dotenv
 from kafka import KafkaProducer
 
@@ -17,13 +16,13 @@ bootstrap_servers =os.getenv("bootstrap_servers")
 
 PRODUCER = KafkaProducer(bootstrap_servers=bootstrap_servers, retries=5)
 
-topicName = os.getenv("topic_name")
+TOPIC_NAME = os.getenv("topic_name")
 
 while True:
     try:
-        data=socket_connection.recv(70240)
-        print(data)
-        PRODUCER.send(topicName, data)
+        DATA = socket_connection.recv(70240)
+        print(DATA)
+        PRODUCER.send(TOPIC_NAME, DATA)
 
     except Exception as exception:
         print(exception)
